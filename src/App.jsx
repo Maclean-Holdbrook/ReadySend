@@ -538,13 +538,16 @@ function LandingPage({ session, onAuthClick, onDashboardClick, onPage }) {
           ))}
         </div>
       </section>
-      <section className="section contact-section" id="contact" data-reveal>
+      <section className="section contact-section contact-preview-section" id="contact" data-reveal>
         <div>
           <p className="eyebrow">Contact us</p>
           <h2>Ready to test ReadySend with real online buyers?</h2>
+          <p>Reach us for seller onboarding, Paystack subscription questions, or product support.</p>
         </div>
         <div className="contact-preview">
-          <p>Use the contact page to ask about seller onboarding, support, or the early pilot.</p>
+          <span>hoodwebworks@gmail.com</span>
+          <span>+233 20 928 7952</span>
+          <span>Accra, Ghana</span>
           <button type="button" className="primary-button" onClick={() => onPage('contact')}>Open contact form</button>
         </div>
       </section>
@@ -635,29 +638,54 @@ function ContactPage({ notify }) {
   }
 
   return (
-    <main className="page-shell contact-page">
-      <section className="page-hero" data-reveal>
-        <p className="eyebrow">Contact us</p>
-        <h1>Send a message to ReadySend.</h1>
-        <p>Use the form for product questions, seller onboarding, support, and early pilot requests.</p>
+    <main className="contact-page">
+      <section className="contact-hero" data-reveal>
+        <div className="contact-hero-copy">
+          <p className="eyebrow">Contact us</p>
+          <h1>Send a message to ReadySend.</h1>
+          <p>Use the form for product questions, seller onboarding, support, and early pilot requests.</p>
+          <div className="contact-detail-grid">
+            <article>
+              <strong>Address</strong>
+              <span>Accra, Ghana</span>
+            </article>
+            <article>
+              <strong>Phone</strong>
+              <a href="tel:+233209287952">+233 20 928 7952</a>
+            </article>
+            <article>
+              <strong>Email</strong>
+              <a href="mailto:hoodwebworks@gmail.com">hoodwebworks@gmail.com</a>
+            </article>
+          </div>
+        </div>
       </section>
-      <form className="panel form-grid contact-form" onSubmit={handleSubmit} data-reveal>
+      <section className="contact-form-section" data-reveal>
+        <div className="contact-form-heading">
+          <h2>Get in touch</h2>
+          <p>Tell us what you need help with and we will reply by email.</p>
+        </div>
+      <form className="contact-form-editorial" onSubmit={handleSubmit}>
         <Field label="Name">
-          <input value={contact.name} onChange={(event) => setContact({ ...contact, name: event.target.value })} required />
+          <input value={contact.name} placeholder="Name" onChange={(event) => setContact({ ...contact, name: event.target.value })} required />
         </Field>
         <Field label="Email">
-          <input type="email" value={contact.email} onChange={(event) => setContact({ ...contact, email: event.target.value })} required />
+          <input type="email" value={contact.email} placeholder="Email" onChange={(event) => setContact({ ...contact, email: event.target.value })} required />
         </Field>
         <Field label="Subject">
-          <input value={contact.subject} onChange={(event) => setContact({ ...contact, subject: event.target.value })} required />
+          <input value={contact.subject} placeholder="Subject" onChange={(event) => setContact({ ...contact, subject: event.target.value })} required />
         </Field>
         <Field label="Message">
-          <textarea value={contact.message} onChange={(event) => setContact({ ...contact, message: event.target.value })} required />
+          <textarea value={contact.message} placeholder="Message" onChange={(event) => setContact({ ...contact, message: event.target.value })} required />
         </Field>
         <button type="submit" className="primary-button wide" disabled={loading}>
           {loading ? 'Sending...' : 'Send message'}
         </button>
       </form>
+      </section>
+      <section className="contact-map-strip" aria-label="ReadySend location">
+        <span>Accra, Ghana</span>
+      </section>
     </main>
   );
 }
