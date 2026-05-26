@@ -1950,13 +1950,35 @@ h2 {
   .site-header {
     align-items: center;
     flex-direction: row;
+    gap: 10px;
   }
 
   .desktop-nav-links {
     display: none;
   }
 
+  .header-contact {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    padding-left: 0;
+    border-left: 0;
+    white-space: nowrap;
+  }
+
+  .header-contact span {
+    display: none;
+  }
+
+  .header-contact strong {
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
   .nav-menu-wrap {
+    margin-left: 0;
     display: block;
   }
 
@@ -2103,6 +2125,30 @@ h2 {
 
   h1 {
     font-size: 2.35rem;
+  }
+
+  .site-header {
+    padding-inline: 14px;
+  }
+
+  .brand {
+    gap: 6px;
+    font-size: 1.05rem;
+  }
+
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+    font-size: 0.82rem;
+  }
+
+  .header-contact strong {
+    font-size: 0.74rem;
+  }
+
+  .hamburger-button {
+    width: 38px;
+    height: 38px;
   }
 
   .form-grid {
