@@ -586,27 +586,63 @@ function AboutPage() {
 }
 
 function PricingPage({ session, onSubscribe }) {
+  const comparisonRows = [
+    ['Monthly price', 'GHS 0', 'GHS 39', 'GHS 89'],
+    ['Orders per month', '15', '150', '500'],
+    ['Buyer confirmation links', 'Yes', 'Yes', 'Yes'],
+    ['Public buyer order form', 'Yes', 'Yes', 'Yes'],
+    ['Core order tracking', 'Yes', 'Yes', 'Yes'],
+    ['Monthly sales summary', 'Limited', 'Yes', 'Yes'],
+    ['Filters and search', 'Basic', 'Better', 'Advanced'],
+    ['Cancelled and returned insights', '-', 'Yes', 'Yes'],
+    ['Exportable monthly summary', '-', '-', 'Yes'],
+    ['Order history', '30 days', 'Full', 'Full']
+  ];
+  const visiblePlans = plans.filter((plan) => plan.key !== 'business');
+
   return (
-    <main className="page-shell">
-      <section className="page-hero" data-reveal>
+    <main className="page-shell pricing-page-shell">
+      <section className="pricing-hero" data-reveal>
         <p className="eyebrow">Pricing</p>
-        <h1>Plans from the ReadySend PRD.</h1>
-        <p>Start free, then upgrade when ReadySend is preventing enough failed dispatches to pay for itself.</p>
+        <h1>Simple plans for online sellers</h1>
+        <p>Choose the monthly plan that matches your order volume. Start free, then upgrade when you need more confirmation links, better tracking, and sales insights.</p>
       </section>
-      <section className="pricing-grid">
-        {plans.map((plan) => (
+      <section className="pricing-grid pricing-card-row">
+        {visiblePlans.map((plan) => (
           <article className={`pricing-card plan-card ${plan.featured ? 'featured' : ''}`} key={plan.name} data-reveal>
-            <span>{plan.future ? 'Future plan' : plan.name}</span>
+            <span>{plan.name}</span>
             <strong>{plan.price}<small>{plan.cadence}</small></strong>
             <p>{plan.description}</p>
             <ul>
               {plan.features.map((feature) => <li key={feature}>{feature}</li>)}
             </ul>
             <button type="button" className={plan.featured ? 'primary-button wide' : 'secondary-button wide'} onClick={() => onSubscribe(plan)}>
-              {plan.future ? 'Join waitlist' : session ? `Subscribe to ${plan.name}` : `Register for ${plan.name}`}
+              {session ? `Subscribe to ${plan.name}` : `Register for ${plan.name}`}
             </button>
           </article>
         ))}
+      </section>
+      <section className="pricing-comparison" data-reveal>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Free</th>
+              <th>Pro</th>
+              <th>Growth</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparisonRows.map((row) => (
+              <tr key={row[0]}>
+                <td>{row[0]}</td>
+                {row.slice(1).map((value, index) => (
+                  <td key={`${row[0]}-${index}`}>{value === 'Yes' ? <span className="check-mark">✓</span> : value}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
     </main>
   );
