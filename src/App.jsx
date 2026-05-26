@@ -506,25 +506,17 @@ function LandingPage({ session, onAuthClick, onDashboardClick, onPage }) {
           </div>
         </div>
       </section>
-      <section className="section about-section" id="about" data-reveal>
-        <div>
+      <section className="section about-section about-feature-section" id="about" data-reveal>
+        <div className="about-feature-heading">
           <p className="eyebrow">About us</p>
           <h2>A business tool for sellers who sell through social channels.</h2>
+          <p>ReadySend gives informal online selling a clearer operating system: buyer requests, seller review, receipt confirmation, and order tracking in one flow.</p>
           <button type="button" className="secondary-button" onClick={() => onPage('about')}>Read more</button>
         </div>
-        <div className="about-grid">
-          <article data-reveal>
-            <strong>Confirm before dispatch</strong>
-            <p>ReadySend gives every order a confirmation step so sellers know the buyer, item, payment, and delivery details are clear before sending the package.</p>
-          </article>
-          <article data-reveal>
-            <strong>Reduce preventable losses</strong>
-            <p>The product is designed around the real cost of failed deliveries, wrong orders, unserious buyers, and unclear payment terms.</p>
-          </article>
-          <article data-reveal>
-            <strong>Built for informal commerce</strong>
-            <p>It supports sellers who operate from WhatsApp, Instagram, TikTok, and referrals without forcing them into a full ecommerce storefront.</p>
-          </article>
+        <div className="about-values-card">
+          <article data-reveal><span>01</span><strong>Confirm before dispatch</strong></article>
+          <article data-reveal><span>02</span><strong>Reduce preventable losses</strong></article>
+          <article data-reveal><span>03</span><strong>Built for informal commerce</strong></article>
         </div>
       </section>
       <section className="section pricing-section" id="pricing" data-reveal>
@@ -562,25 +554,32 @@ function LandingPage({ session, onAuthClick, onDashboardClick, onPage }) {
 
 function AboutPage() {
   return (
-    <main className="page-shell">
-      <section className="page-hero" data-reveal>
+    <main className="page-shell about-page-shell">
+      <section className="about-identity-hero" data-reveal>
         <p className="eyebrow">About us</p>
-        <h1>ReadySend helps online sellers make safer dispatch decisions.</h1>
+        <h1>Unveiling our identity, vision and values</h1>
         <p>Many sellers do business through WhatsApp, Instagram, TikTok, and referrals. Orders are often confirmed through chat, but sellers still lose money when buyers change details, delay payment, give unclear addresses, or abandon deliveries. ReadySend gives that sales flow a simple business system.</p>
       </section>
-      <section className="about-grid page-grid">
-        <article data-reveal>
-          <strong>Order confirmation</strong>
-          <p>Each buyer receives a receipt-style confirmation link that captures the product, quantity, payment terms, delivery area, and delivery date before dispatch.</p>
+      <section className="about-values-panel" data-reveal>
+        <article><span>01</span><strong>Order confirmation</strong></article>
+        <article><span>02</span><strong>Seller control</strong></article>
+        <article><span>03</span><strong>Revenue protection</strong></article>
+        <article><span>04</span><strong>Practical commerce</strong></article>
+      </section>
+      <section className="about-mission-card" data-reveal>
+        <article>
+          <span className="mission-icon">Vision</span>
+          <h2>Make social selling safer before dispatch.</h2>
+          <p>ReadySend helps online sellers move from scattered chat confirmations to clear buyer requests, receipt links, and order records.</p>
         </article>
-        <article data-reveal>
-          <strong>Seller control</strong>
-          <p>The seller keeps a clean dashboard of orders and confirmation status instead of relying only on scattered chats and screenshots.</p>
+        <article>
+          <span className="mission-icon">Mission</span>
+          <h2>Reduce preventable seller losses.</h2>
+          <p>Each buyer receives a receipt-style confirmation link that captures product, quantity, payment terms, delivery area, and delivery date before dispatch.</p>
         </article>
-        <article data-reveal>
-          <strong>Revenue protection</strong>
-          <p>ReadySend is built to reduce failed dispatches, returned orders, customer confusion, and time wasted on buyers who are not ready.</p>
-        </article>
+        <button type="button" className="primary-button about-mission-button">
+          Know more about ReadySend
+        </button>
       </section>
     </main>
   );
