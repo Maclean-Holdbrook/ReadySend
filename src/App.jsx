@@ -362,7 +362,13 @@ function Navbar({ session, onPage, onAuthClick, onDashboardClick, onLogout }) {
   }
 
   return (
-    <header className="site-header">
+    <>
+      <div className="top-info-bar">
+        <span>Accra, Ghana</span>
+        <span>Support: hoodwebworks@gmail.com</span>
+        <span>For online sellers</span>
+      </div>
+      <header className="site-header">
       <a className="brand" href="#home" onClick={() => onPage('landing')} aria-label="ReadySend home">
         ReadySend
       </a>
@@ -403,7 +409,8 @@ function Navbar({ session, onPage, onAuthClick, onDashboardClick, onLogout }) {
           </nav>
         ) : null}
       </div>
-    </header>
+      </header>
+    </>
   );
 }
 
@@ -423,11 +430,11 @@ function LandingPage({ session, onAuthClick, onDashboardClick, onPage }) {
             </button>
           </div>
         </div>
-        <div className="hero-media animated-media" aria-label="Seller preparing orders" data-reveal>
-          <img src="https://images.pexels.com/photos/7289708/pexels-photo-7289708.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Online seller packing an order beside a laptop" />
+        <div className="hero-media animated-media" aria-label="Buyer opening a parcel after an online order" data-reveal>
+          <img src="https://images.pexels.com/photos/3960574/pexels-photo-3960574.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Black woman opening a delivery parcel beside a laptop" />
           <div className="motion-card motion-card-top">
             <span>Buyer request</span>
-            <strong>2 items · GHS 240</strong>
+            <strong>2 items - GHS 240</strong>
           </div>
           <div className="motion-card motion-card-bottom">
             <span>Receipt status</span>
@@ -435,9 +442,28 @@ function LandingPage({ session, onAuthClick, onDashboardClick, onPage }) {
           </div>
         </div>
       </section>
+      <section className="hero-feature-strip" aria-label="ReadySend benefits">
+        <article>
+          <span>More control</span>
+          <p>Review every buyer request before a receipt is created.</p>
+        </article>
+        <article>
+          <span>Less dispatch stress</span>
+          <p>Confirm item, delivery, and payment details before sending out.</p>
+        </article>
+        <article>
+          <span>Faster follow-up</span>
+          <p>Copy confirmation messages and send them straight into the buyer DM.</p>
+        </article>
+      </section>
       <section className="section visual-band" data-reveal>
-        <div className="visual-frame">
-          <img src="https://images.pexels.com/photos/7857541/pexels-photo-7857541.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="A seller writing a shipping label on a package" />
+        <div className="visual-collage">
+          <div className="visual-frame main-photo">
+            <img src="https://images.pexels.com/photos/7857499/pexels-photo-7857499.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Online shop team managing orders on a laptop" />
+          </div>
+          <div className="visual-frame inset-photo">
+            <img src="https://images.pexels.com/photos/3960574/pexels-photo-3960574.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Black customer checking a delivered parcel" />
+          </div>
         </div>
         <div data-reveal>
           <p className="eyebrow">How it works</p>

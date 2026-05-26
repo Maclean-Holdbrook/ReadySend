@@ -52,6 +52,19 @@ button {
   border: 0;
 }
 
+.top-info-bar {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 6px clamp(20px, 5vw, 64px);
+  background: #073d31;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -62,7 +75,7 @@ button {
   gap: 24px;
   padding: 18px clamp(20px, 5vw, 64px);
   border-bottom: 1px solid rgba(29, 37, 32, 0.1);
-  background: rgba(251, 250, 246, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(14px);
 }
 
@@ -176,10 +189,12 @@ button {
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(360px, 0.92fr);
-  gap: clamp(28px, 5vw, 72px);
+  gap: clamp(24px, 4vw, 60px);
   align-items: center;
-  min-height: calc(100vh - 76px);
-  padding: clamp(36px, 7vw, 90px) clamp(20px, 5vw, 64px) 48px;
+  min-height: calc(100vh - 108px);
+  padding: clamp(44px, 7vw, 96px) clamp(20px, 5vw, 64px) 58px;
+  background:
+    linear-gradient(90deg, #fbfaf6 0%, #fbfaf6 52%, rgba(237, 244, 239, 0.62) 52%, rgba(237, 244, 239, 0.62) 100%);
 }
 
 .hero-copy {
@@ -265,11 +280,11 @@ h2 {
 
 .hero-media {
   position: relative;
-  min-height: 520px;
+  min-height: 500px;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 0 0 0 88px;
   background: #e7eee7;
-  box-shadow: 0 24px 60px rgba(17, 29, 24, 0.16);
+  box-shadow: none;
 }
 
 .animated-media {
@@ -280,7 +295,7 @@ h2 {
   position: absolute;
   inset: 0;
   content: "";
-  background: linear-gradient(180deg, rgba(16, 33, 26, 0) 35%, rgba(16, 33, 26, 0.42) 100%);
+  background: linear-gradient(180deg, rgba(16, 33, 26, 0) 48%, rgba(16, 33, 26, 0.28) 100%);
   pointer-events: none;
 }
 
@@ -313,6 +328,38 @@ h2 {
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 16px 40px rgba(10, 22, 17, 0.22);
   animation: gentleFloat 5.2s ease-in-out infinite;
+}
+
+.hero-feature-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  background: #073d31;
+  color: #fff;
+  padding: 0 clamp(20px, 5vw, 64px);
+}
+
+.hero-feature-strip article {
+  display: grid;
+  gap: 6px;
+  min-height: 116px;
+  align-content: center;
+  padding: 24px clamp(18px, 3vw, 34px);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero-feature-strip article:first-child {
+  border-left: 0;
+}
+
+.hero-feature-strip span {
+  color: #d6f3e5;
+  font-weight: 850;
+}
+
+.hero-feature-strip p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.55;
 }
 
 .motion-card span,
@@ -442,7 +489,12 @@ h2 {
   grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1fr);
   gap: clamp(26px, 5vw, 64px);
   align-items: center;
-  background: #edf4ef;
+  background: #fff;
+}
+
+.visual-collage {
+  position: relative;
+  min-height: 460px;
 }
 
 .visual-frame {
@@ -451,8 +503,22 @@ h2 {
   box-shadow: 0 20px 52px rgba(17, 29, 24, 0.12);
 }
 
+.visual-collage .main-photo {
+  width: min(78%, 500px);
+  height: 380px;
+}
+
+.visual-collage .inset-photo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(46%, 280px);
+  height: 230px;
+  border: 10px solid #fff;
+}
+
 .visual-band img {
-  max-height: 430px;
+  max-height: none;
   border-radius: 8px;
   transform: scale(1.04);
   transition: transform 900ms ease;
@@ -1434,6 +1500,7 @@ h2 {
   }
 
   .hero,
+  .hero-feature-strip,
   .about-section,
   .visual-band,
   .story-section,
@@ -1456,6 +1523,21 @@ h2 {
 
   .hero-media {
     min-height: 380px;
+    border-radius: 8px;
+  }
+
+  .visual-collage {
+    min-height: 420px;
+  }
+
+  .visual-collage .main-photo {
+    width: 86%;
+    height: 340px;
+  }
+
+  .visual-collage .inset-photo {
+    width: min(54%, 250px);
+    height: 200px;
   }
 
   .story-copy article {
@@ -1529,6 +1611,11 @@ h2 {
 
   .hero {
     padding-inline: 18px;
+    background: #fbfaf6;
+  }
+
+  .top-info-bar {
+    display: none;
   }
 
   .motion-card {
@@ -1550,5 +1637,37 @@ h2 {
     left: 14px;
     right: 14px;
     bottom: 14px;
+  }
+
+  .hero-feature-strip {
+    padding-inline: 18px;
+  }
+
+  .hero-feature-strip article {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-inline: 0;
+  }
+
+  .hero-feature-strip article:first-child {
+    border-top: 0;
+  }
+
+  .visual-collage {
+    min-height: auto;
+  }
+
+  .visual-collage .main-photo,
+  .visual-collage .inset-photo {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 260px;
+    border: 0;
+  }
+
+  .visual-collage {
+    display: grid;
+    gap: 14px;
   }
 }
