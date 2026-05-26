@@ -577,9 +577,6 @@ function AboutPage() {
           <h2>Reduce preventable seller losses.</h2>
           <p>Each buyer receives a receipt-style confirmation link that captures product, quantity, payment terms, delivery area, and delivery date before dispatch.</p>
         </article>
-        <button type="button" className="primary-button about-mission-button">
-          Know more about ReadySend
-        </button>
       </section>
     </main>
   );
