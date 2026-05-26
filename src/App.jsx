@@ -369,46 +369,51 @@ function Navbar({ session, onPage, onAuthClick, onDashboardClick, onLogout }) {
         <span>For online sellers</span>
       </div>
       <header className="site-header">
-      <a className="brand" href="#home" onClick={() => onPage('landing')} aria-label="ReadySend home">
-        ReadySend
-      </a>
-      <nav className="desktop-nav-links" aria-label="Main navigation">
-        <button type="button" onClick={() => onPage('landing')}>Home</button>
-        <button type="button" onClick={() => onPage('about')}>About us</button>
-        <button type="button" onClick={() => onPage('pricing')}>Pricing</button>
-        <button type="button" onClick={() => onPage('contact')}>Contact us</button>
-        {session ? (
-          <>
-            <button type="button" className="nav-button" onClick={onDashboardClick}>Dashboard</button>
-            <button type="button" className="nav-button muted" onClick={onLogout}>Logout</button>
-          </>
-        ) : (
-          <button type="button" className="nav-button" onClick={onAuthClick}>Register seller</button>
-        )}
-      </nav>
-      <div className="nav-menu-wrap" ref={menuRef}>
-        <button type="button" className="hamburger-button" aria-label="Open navigation menu" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        {menuOpen ? (
-          <nav className="nav-links" aria-label="Main navigation">
-            <button type="button" onClick={() => handleNav(() => onPage('landing'))}>Home</button>
-            <button type="button" onClick={() => handleNav(() => onPage('about'))}>About us</button>
-            <button type="button" onClick={() => handleNav(() => onPage('pricing'))}>Pricing</button>
-            <button type="button" onClick={() => handleNav(() => onPage('contact'))}>Contact us</button>
-            {session ? (
-              <>
-                <button type="button" className="nav-button" onClick={() => handleNav(onDashboardClick)}>Dashboard</button>
-                <button type="button" className="nav-button muted" onClick={() => handleNav(onLogout)}>Logout</button>
-              </>
-            ) : (
-              <button type="button" className="nav-button" onClick={() => handleNav(onAuthClick)}>Register seller</button>
-            )}
-          </nav>
-        ) : null}
-      </div>
+        <a className="brand" href="#home" onClick={() => onPage('landing')} aria-label="ReadySend home">
+          <span className="brand-mark" aria-hidden="true">R</span>
+          ReadySend
+        </a>
+        <nav className="desktop-nav-links" aria-label="Main navigation">
+          <button type="button" onClick={() => onPage('landing')}>Home</button>
+          <button type="button" onClick={() => onPage('about')}>About us</button>
+          <button type="button" onClick={() => onPage('pricing')}>Pricing</button>
+          <button type="button" onClick={() => onPage('contact')}>Contact us</button>
+          {session ? (
+            <>
+              <button type="button" className="nav-button" onClick={onDashboardClick}>Dashboard</button>
+              <button type="button" className="nav-button muted" onClick={onLogout}>Logout</button>
+            </>
+          ) : (
+            <button type="button" className="nav-button nav-cta" onClick={onAuthClick}>Register seller</button>
+          )}
+        </nav>
+        <a className="header-contact" href="tel:+233209287952">
+          <span>Call us</span>
+          <strong>+233 20 928 7952</strong>
+        </a>
+        <div className="nav-menu-wrap" ref={menuRef}>
+          <button type="button" className="hamburger-button" aria-label="Open navigation menu" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          {menuOpen ? (
+            <nav className="nav-links" aria-label="Main navigation">
+              <button type="button" onClick={() => handleNav(() => onPage('landing'))}>Home</button>
+              <button type="button" onClick={() => handleNav(() => onPage('about'))}>About us</button>
+              <button type="button" onClick={() => handleNav(() => onPage('pricing'))}>Pricing</button>
+              <button type="button" onClick={() => handleNav(() => onPage('contact'))}>Contact us</button>
+              {session ? (
+                <>
+                  <button type="button" className="nav-button" onClick={() => handleNav(onDashboardClick)}>Dashboard</button>
+                  <button type="button" className="nav-button muted" onClick={() => handleNav(onLogout)}>Logout</button>
+                </>
+              ) : (
+                <button type="button" className="nav-button" onClick={() => handleNav(onAuthClick)}>Register seller</button>
+              )}
+            </nav>
+          ) : null}
+        </div>
       </header>
     </>
   );
@@ -419,7 +424,7 @@ function LandingPage({ session, onAuthClick, onDashboardClick, onPage }) {
     <main>
       <section className="hero" id="home">
         <div className="hero-copy" data-reveal>
-          <p className="eyebrow">For online sellers</p>
+          <p className="eyebrow hero-eyebrow">For online sellers</p>
           <h1>Confirm orders before dispatch, without exposing the seller.</h1>
           <p className="hero-text">
             ReadySend gives social sellers a clean order confirmation link for every buyer, so the dispatch decision is clearer before money, products, and time are lost.
@@ -432,14 +437,6 @@ function LandingPage({ session, onAuthClick, onDashboardClick, onPage }) {
         </div>
         <div className="hero-media animated-media" aria-label="Buyer opening a parcel after an online order" data-reveal>
           <img src="https://images.pexels.com/photos/3960574/pexels-photo-3960574.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Black woman opening a delivery parcel beside a laptop" />
-          <div className="motion-card motion-card-top">
-            <span>Buyer request</span>
-            <strong>2 items - GHS 240</strong>
-          </div>
-          <div className="motion-card motion-card-bottom">
-            <span>Receipt status</span>
-            <strong>Confirmed</strong>
-          </div>
         </div>
       </section>
       <section className="hero-feature-strip" aria-label="ReadySend benefits">
