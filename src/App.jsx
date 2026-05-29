@@ -435,6 +435,11 @@ function Navbar({ session, onPage, onAuthClick, onDashboardClick, onLogout }) {
     setMenuOpen(false);
   }
 
+  function handlePageLink(event, nextView) {
+    event.preventDefault();
+    handleNav(() => onPage(nextView));
+  }
+
   return (
     <>
       <div className="top-info-bar">
@@ -448,17 +453,17 @@ function Navbar({ session, onPage, onAuthClick, onDashboardClick, onLogout }) {
           ReadySend
         </a>
         <nav className="desktop-nav-links" aria-label="Main navigation">
-          <button type="button" onClick={() => onPage('landing')}>Home</button>
-          <button type="button" onClick={() => onPage('about')}>About us</button>
-          <button type="button" onClick={() => onPage('pricing')}>Pricing</button>
-          <button type="button" onClick={() => onPage('contact')}>Contact us</button>
+          <a href="/" onClick={(event) => handlePageLink(event, 'landing')}>Home</a>
+          <a href="/about" onClick={(event) => handlePageLink(event, 'about')}>About us</a>
+          <a href="/pricing" onClick={(event) => handlePageLink(event, 'pricing')}>Pricing</a>
+          <a href="/contact" onClick={(event) => handlePageLink(event, 'contact')}>Contact us</a>
           {session ? (
             <>
-              <button type="button" className="nav-button" onClick={onDashboardClick}>Dashboard</button>
+              <a href="/dashboard" className="nav-button" onClick={(event) => { event.preventDefault(); onDashboardClick(); }}>Dashboard</a>
               <button type="button" className="nav-button muted" onClick={onLogout}>Logout</button>
             </>
           ) : (
-            <button type="button" className="nav-button nav-cta" onClick={onAuthClick}>Register seller</button>
+            <a href="/register" className="nav-button nav-cta" onClick={(event) => { event.preventDefault(); onAuthClick(); }}>Register seller</a>
           )}
         </nav>
         <a className="header-contact" href="tel:+233209287952">
@@ -473,17 +478,17 @@ function Navbar({ session, onPage, onAuthClick, onDashboardClick, onLogout }) {
           </button>
           {menuOpen ? (
             <nav className="nav-links" aria-label="Main navigation">
-              <button type="button" onClick={() => handleNav(() => onPage('landing'))}>Home</button>
-              <button type="button" onClick={() => handleNav(() => onPage('about'))}>About us</button>
-              <button type="button" onClick={() => handleNav(() => onPage('pricing'))}>Pricing</button>
-              <button type="button" onClick={() => handleNav(() => onPage('contact'))}>Contact us</button>
+              <a href="/" onClick={(event) => handlePageLink(event, 'landing')}>Home</a>
+              <a href="/about" onClick={(event) => handlePageLink(event, 'about')}>About us</a>
+              <a href="/pricing" onClick={(event) => handlePageLink(event, 'pricing')}>Pricing</a>
+              <a href="/contact" onClick={(event) => handlePageLink(event, 'contact')}>Contact us</a>
               {session ? (
                 <>
-                  <button type="button" className="nav-button" onClick={() => handleNav(onDashboardClick)}>Dashboard</button>
+                  <a href="/dashboard" className="nav-button" onClick={(event) => { event.preventDefault(); handleNav(onDashboardClick); }}>Dashboard</a>
                   <button type="button" className="nav-button muted" onClick={() => handleNav(onLogout)}>Logout</button>
                 </>
               ) : (
-                <button type="button" className="nav-button" onClick={() => handleNav(onAuthClick)}>Register seller</button>
+                <a href="/register" className="nav-button" onClick={(event) => { event.preventDefault(); handleNav(onAuthClick); }}>Register seller</a>
               )}
             </nav>
           ) : null}

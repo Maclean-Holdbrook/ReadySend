@@ -107,6 +107,7 @@ button {
   margin-left: auto;
 }
 
+.desktop-nav-links a,
 .desktop-nav-links button {
   border: 0;
   background: transparent;
@@ -114,6 +115,7 @@ button {
   font-weight: 650;
 }
 
+.desktop-nav-links a:hover,
 .desktop-nav-links button:hover {
   color: #0c3b2e;
 }
