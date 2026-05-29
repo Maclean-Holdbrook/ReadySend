@@ -18,7 +18,7 @@ It helps sellers collect buyer order requests, review orders, create confirmatio
 - Creates receipt links sellers can copy into customer DMs.
 - Lets buyers confirm receipts before dispatch.
 - Tracks pending and confirmed orders.
-- Supports subscription plans through Paystack.
+- Supports subscription plans through Flutterwave.
 - Sends contact form messages through Resend.
 
 ## Tech Stack

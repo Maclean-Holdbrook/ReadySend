@@ -73,19 +73,91 @@ const emptyContact = {
   message: ''
 };
 
-const viewHashes = {
-  landing: '#home',
-  about: '#about',
-  pricing: '#pricing',
-  contact: '#contact',
-  auth: '#register',
-  dashboard: '#dashboard'
+const routePaths = {
+  landing: '/',
+  about: '/about',
+  pricing: '/pricing',
+  contact: '/contact',
+  auth: '/register',
+  dashboard: '/dashboard'
 };
 
-function viewFromHash(hasSession) {
+const legacyHashRoutes = {
+  '#home': '/',
+  '#about': '/about',
+  '#pricing': '/pricing',
+  '#contact': '/contact',
+  '#register': '/register',
+  '#dashboard': '/dashboard'
+};
+
+const siteUrl = 'https://readysend.online/';
+
+const seoByView = {
+  landing: {
+    title: 'ReadySend | Order Confirmation for Online Sellers',
+    description: 'ReadySend helps Ghanaian online sellers collect buyer order requests, send confirmation receipts, and confirm delivery details before dispatch.'
+  },
+  about: {
+    title: 'About ReadySend | Safer Dispatch for Social Sellers',
+    description: 'Learn how ReadySend helps online sellers reduce failed dispatches with buyer requests, receipt links, and order confirmation workflows.'
+  },
+  pricing: {
+    title: 'ReadySend Pricing | Free, Pro, and Growth Plans',
+    description: 'Compare ReadySend plans for online sellers, from a free starter plan to Pro and Growth plans for higher order volume.'
+  },
+  contact: {
+    title: 'Contact ReadySend | Seller Onboarding and Support',
+    description: 'Contact ReadySend for seller onboarding, product support, and questions about buyer order confirmation tools.'
+  },
+  auth: {
+    title: 'Register for ReadySend | Seller Account',
+    description: 'Create a ReadySend seller account to collect buyer order requests and send confirmation receipts before dispatch.'
+  },
+  dashboard: {
+    title: 'ReadySend Dashboard | Seller Order Tools',
+    description: 'Manage buyer requests, create receipt links, and track order confirmations in ReadySend.'
+  },
+  shop: {
+    title: 'ReadySend Order Request | Buyer Form',
+    description: 'Send order details to a seller using their ReadySend buyer request form.'
+  }
+};
+
+function setMetaAttribute(selector, attribute, value) {
+  const element = document.head.querySelector(selector);
+  if (element) {
+    element.setAttribute(attribute, value);
+  }
+}
+
+function setLinkHref(selector, href) {
+  const element = document.head.querySelector(selector);
+  if (element) {
+    element.setAttribute('href', href);
+  }
+}
+
+function normalizeLegacyHashUrl() {
   const hash = window.location.hash || '';
-  if (hash.startsWith('#shop/')) return 'shop';
-  const match = Object.entries(viewHashes).find(([, value]) => value === hash);
+  let nextPath = legacyHashRoutes[hash];
+
+  if (hash.startsWith('#shop/')) {
+    nextPath = `/shop/${encodeURIComponent(decodeURIComponent(hash.slice('#shop/'.length)))}`;
+  }
+
+  if (nextPath && window.location.pathname !== nextPath) {
+    window.history.replaceState(null, '', nextPath);
+  }
+}
+
+function viewFromLocation(hasSession) {
+  normalizeLegacyHashUrl();
+
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  if (path.startsWith('/shop/')) return 'shop';
+
+  const match = Object.entries(routePaths).find(([, value]) => value === path);
   const nextView = match?.[0];
 
   if (nextView === 'dashboard' && !hasSession) return 'auth';
@@ -114,9 +186,11 @@ function toOrderForm(order) {
   };
 }
 
-function shopSlugFromHash() {
-  const hash = window.location.hash || '';
-  return hash.startsWith('#shop/') ? decodeURIComponent(hash.slice('#shop/'.length)) : '';
+function shopSlugFromLocation() {
+  normalizeLegacyHashUrl();
+
+  const prefix = '/shop/';
+  return window.location.pathname.startsWith(prefix) ? decodeURIComponent(window.location.pathname.slice(prefix.length)) : '';
 }
 
 function activePlanName(subscription) {
@@ -311,7 +385,7 @@ function Footer({ onPage }) {
   return (
     <footer className="site-footer">
       <div>
-        <a className="brand" href="#home" onClick={() => onPage('landing')}>
+        <a className="brand" href="/" onClick={(event) => { event.preventDefault(); onPage('landing'); }}>
           ReadySend
         </a>
         <p>Order confirmation tools for online sellers who sell through DMs, WhatsApp, Instagram, and referrals.</p>
@@ -369,7 +443,7 @@ function Navbar({ session, onPage, onAuthClick, onDashboardClick, onLogout }) {
         <span>For online sellers</span>
       </div>
       <header className="site-header">
-        <a className="brand" href="#home" onClick={() => onPage('landing')} aria-label="ReadySend home">
+        <a className="brand" href="/" onClick={(event) => { event.preventDefault(); onPage('landing'); }} aria-label="ReadySend home">
           <span className="brand-mark" aria-hidden="true">R</span>
           ReadySend
         </a>
@@ -542,7 +616,7 @@ function LandingPage({ session, onAuthClick, onDashboardClick, onPage }) {
         <div>
           <p className="eyebrow">Contact us</p>
           <h2>Ready to test ReadySend with real online buyers?</h2>
-          <p>Reach us for seller onboarding, Paystack subscription questions, or product support.</p>
+          <p>Reach us for seller onboarding, Flutterwave subscription questions, or product support.</p>
         </div>
         <div className="contact-preview">
           <span>hoodwebworks@gmail.com</span>
@@ -933,7 +1007,7 @@ function Dashboard({ session, selectedPlan, onLogout, onPage, notify }) {
     }
   }
 
-  async function startPaystackCheckout(plan) {
+  async function startFlutterwaveCheckout(plan) {
     if (!plan || plan.key === 'free' || plan.future) return;
     setError('');
     setBillingLoading(true);
@@ -943,7 +1017,7 @@ function Dashboard({ session, selectedPlan, onLogout, onPage, notify }) {
       window.location.href = payload.authorizationUrl;
     } catch (err) {
       setError(err.message);
-      notify('Could not open Paystack', err.message, 'error');
+      notify('Could not open Flutterwave', err.message, 'error');
       setBillingLoading(false);
     }
   }
@@ -1090,7 +1164,7 @@ function Dashboard({ session, selectedPlan, onLogout, onPage, notify }) {
   const pendingOrders = filteredOrders.filter((item) => item.confirmationStatus !== 'confirmed');
   const confirmedOrders = filteredOrders.filter((item) => item.confirmationStatus === 'confirmed');
   const pendingBuyerRequests = buyerRequests.filter((item) => item.status === 'pending');
-  const publicOrderLink = publicSlug ? `${window.location.origin}/#shop/${encodeURIComponent(publicSlug)}` : '';
+  const publicOrderLink = publicSlug ? `${window.location.origin}/shop/${encodeURIComponent(publicSlug)}` : '';
 
   return (
     <main className="dashboard-page">
@@ -1111,7 +1185,7 @@ function Dashboard({ session, selectedPlan, onLogout, onPage, notify }) {
         <div className="profile-plan-list desktop-profile-plan-list">
           {subscription?.status !== 'active'
             ? paidPlans().map((plan) => (
-                <button type="button" key={plan.key} disabled={billingLoading} onClick={() => startPaystackCheckout(plan)}>
+                <button type="button" key={plan.key} disabled={billingLoading} onClick={() => startFlutterwaveCheckout(plan)}>
                   {plan.name} - {plan.price}{plan.cadence}
                 </button>
               ))
@@ -1362,7 +1436,7 @@ function Dashboard({ session, selectedPlan, onLogout, onPage, notify }) {
             <div className="profile-plan-list">
               {subscription?.status !== 'active'
                 ? paidPlans().map((plan) => (
-                    <button type="button" key={plan.key} disabled={billingLoading} onClick={() => startPaystackCheckout(plan)}>
+                    <button type="button" key={plan.key} disabled={billingLoading} onClick={() => startFlutterwaveCheckout(plan)}>
                       {plan.name} - {plan.price}{plan.cadence}
                     </button>
                   ))
@@ -1381,8 +1455,8 @@ function Dashboard({ session, selectedPlan, onLogout, onPage, notify }) {
 
 export default function App() {
   const [session, setSession] = useState(() => loadSession());
-  const [view, setView] = useState(() => viewFromHash(Boolean(loadSession())));
-  const [shopSlug, setShopSlug] = useState(() => shopSlugFromHash());
+  const [view, setView] = useState(() => viewFromLocation(Boolean(loadSession())));
+  const [shopSlug, setShopSlug] = useState(() => shopSlugFromLocation());
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [notification, setNotification] = useState(null);
 
@@ -1393,13 +1467,26 @@ export default function App() {
   useScrollReveal(view);
 
   useEffect(() => {
+    const seo = seoByView[view] || seoByView.landing;
+    const currentUrl = `${window.location.origin}${window.location.pathname}`;
+    document.title = seo.title;
+    setMetaAttribute('meta[name="description"]', 'content', seo.description);
+    setMetaAttribute('meta[property="og:title"]', 'content', seo.title);
+    setMetaAttribute('meta[property="og:description"]', 'content', seo.description);
+    setMetaAttribute('meta[property="og:url"]', 'content', currentUrl);
+    setMetaAttribute('meta[name="twitter:title"]', 'content', seo.title);
+    setMetaAttribute('meta[name="twitter:description"]', 'content', seo.description);
+    setLinkHref('link[rel="canonical"]', view === 'shop' ? siteUrl : currentUrl);
+  }, [view]);
+
+  useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
 
-    function handleHashChange() {
-      const nextView = viewFromHash(Boolean(loadSession()));
-      setShopSlug(shopSlugFromHash());
+    function handleLocationChange() {
+      const nextView = viewFromLocation(Boolean(loadSession()));
+      setShopSlug(shopSlugFromLocation());
       setView(nextView);
       const savedScroll = sessionStorage.getItem(`readysend.scroll.${nextView}`);
       window.requestAnimationFrame(() => {
@@ -1407,20 +1494,25 @@ export default function App() {
       });
     }
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    handleLocationChange();
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
   }, []);
 
   function goToPage(nextView, options = {}) {
     sessionStorage.setItem(`readysend.scroll.${view}`, String(window.scrollY));
     setView(nextView);
-    const nextHash = viewHashes[nextView] || viewHashes.landing;
+    const nextPath = routePaths[nextView] || routePaths.landing;
 
-    if (window.location.hash !== nextHash) {
+    if (window.location.pathname !== nextPath || window.location.hash) {
       if (options.replace) {
-        window.history.replaceState(null, '', nextHash);
+        window.history.replaceState(null, '', nextPath);
       } else {
-        window.history.pushState(null, '', nextHash);
+        window.history.pushState(null, '', nextPath);
       }
     }
 
